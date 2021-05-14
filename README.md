@@ -1,11 +1,39 @@
-This project is the Day-28  course project of [100 Days of Code - The Complete Python Pro Bootcamp for 2021](https://www.udemy.com/course/100-days-of-code/) by Dr. Aangela Yu.
+This project is a minimalism design of a pomodoro app.
+
+I set the background color to change based on the work/break stage.
 
 ![screenshot](link)
 
-Mostly the main feature and the material is from the course. I only make some tiny tweaks on the bottom of the work session counts mark. I used the windows emoji icons to mark the completed pomodoro sessions.
+
 
 This short video records a simply short version to demonstrate how it works of each session count to 00:00.
 
 ![demo_video](link)
 
+
+
 In the working version I set the work time to 25 minutes, short-break for 5 minutes, and long-break for 30 minutes.
+
+
+
+If you want to modify the color, font, or time for each session, tweak the constants code here:
+
+```python
+# ---------------------------- CONSTANTS ------------------------------- #
+PINK = "#ffadad"
+RED = "#EA526F"
+GREEN = "#25CED1"
+YELLOW = "#FCEADE"
+BLUE = "#85E9EA"
+BG_COLOR = RED
+# -- Font of choice: "Dubai", "Bahnschrift", "Ink Free", "Lucida Sans", "Lucida Sans Typewriter", "Maiandra GD",
+# "Source Code Pro", "Taipei Sans TC Beta", "Tempus Sans ITC"
+FONT_NAME = "Bahnschrift"
+WORK_MIN = 25
+SHORT_BREAK_MIN = 5
+LONG_BREAK_MIN = 30
+
+```
+
+ 
+

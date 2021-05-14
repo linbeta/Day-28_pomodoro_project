@@ -1,14 +1,19 @@
 from tkinter import *
 import math
 # ---------------------------- CONSTANTS ------------------------------- #
-PINK = "#e2979c"
-RED = "#e7305b"
-GREEN = "#9bdeac"
-YELLOW = "#f7f5dd"
-FONT_NAME = "Courier"
+PINK = "#ffadad"
+RED = "#EA526F"
+GREEN = "#25CED1"
+YELLOW = "#FCEADE"
+BLUE = "#85E9EA"
+BG_COLOR = RED
+# -- Font of choice: "Dubai", "Bahnschrift", "Ink Free", "Lucida Sans", "Lucida Sans Typewriter", "Maiandra GD",
+# "Source Code Pro", "Taipei Sans TC Beta", "Tempus Sans ITC"
+FONT_NAME = "Bahnschrift"
 WORK_MIN = 25
 SHORT_BREAK_MIN = 5
 LONG_BREAK_MIN = 30
+
 timer = None
 reps = 1
 pomo_num = ""
@@ -17,30 +22,42 @@ def reset_timer():
     global timer, reps, pomo_num
     window.after_cancel(timer)
     canvas.itemconfig(timer_text, text="00:00")
-    timer_label.config(text="Timer")
+    canvas.itemconfig(timer_label, text="Timer")
     checked_mark.config(text="")
     timer = None
     reps = 1
     pomo_num = ""
 
-# TODO: figure out how to set the timer pause and resume
-# def pause():
-#     count_sec = timer
-#     window.after_cancel(timer)
-#     print(count_sec)
-#     pause_btn.config(text="RESUME")
 # ---------------------------- TIMER MECHANISM ------------------------------- #
 def start_count_down():
-    global reps
+    global reps, BG_COLOR
     if reps%8 == 0:
         count_down(LONG_BREAK_MIN * 60)
-        timer_label.config(text="BREAK", fg=RED)
+        BG_COLOR = BLUE
+        canvas.config(bg=BG_COLOR)
+        window.config(bg=BG_COLOR)
+        canvas.itemconfig(timer_label, text="BREAK", fill=GREEN)
+        start_btn.config(bg=BG_COLOR)
+        reset_btn.config(bg=BG_COLOR)
+        checked_mark.config(bg=BG_COLOR)
     elif reps%2 == 0:
         count_down(SHORT_BREAK_MIN * 60)
-        timer_label.config(text="Break", fg=PINK)
+        BG_COLOR = GREEN
+        canvas.config(bg=BG_COLOR)
+        window.config(bg=BG_COLOR)
+        canvas.itemconfig(timer_label, text="Break", fill="white")
+        start_btn.config(bg=BG_COLOR)
+        reset_btn.config(bg=BG_COLOR)
+        checked_mark.config(bg=BG_COLOR)
     elif reps%2 == 1:
         count_down(WORK_MIN * 60)
-        timer_label.config(text="Work", fg=GREEN)
+        BG_COLOR = RED
+        canvas.config(bg=BG_COLOR)
+        window.config(bg=BG_COLOR)
+        canvas.itemconfig(timer_label, text="Work", fill=PINK)
+        start_btn.config(bg=BG_COLOR)
+        reset_btn.config(bg=BG_COLOR)
+        checked_mark.config(bg=BG_COLOR)
     reps += 1
 
 
@@ -61,9 +78,10 @@ def count_down(count):
         window.attributes("-topmost", 1)
         window.attributes("-topmost", 0)
         if reps % 2 == 0:
-            pomo_num += "🍅"
+            pomo_num += "⚫"
         if reps % 8 == 1:
-            pomo_num += "🎮"
+            pomo_num += "-"
+
         checked_mark.config(text=pomo_num)
         start_count_down()
 
@@ -71,32 +89,23 @@ def count_down(count):
 # ---------------------------- UI SETUP ------------------------------- #
 window = Tk()
 window.title("Pomodoro")
-window.config(padx=80, pady=50, bg=YELLOW)
+window.config(padx=40, pady=20, bg=BG_COLOR)
 
-# TOMATO and Time at the center  #
-canvas = Canvas(width=210, height=230, bg=YELLOW, highlightthickness=0)
-tomato_img = PhotoImage(file="tomato.png")
-canvas.create_image(105, 115, image=tomato_img)
-timer_text = canvas.create_text(112, 136, text="00:00", fill="white", font=(FONT_NAME, 28, "bold"))
-canvas.grid(column=1, row=1)
+# --- Theme color and Time at the center ---
+canvas = Canvas(width=260, height=200, bg=BG_COLOR, highlightthickness=0)
+timer_text = canvas.create_text(130, 120, text="00:00", fill="white", font=(FONT_NAME, 80, "normal"))
+canvas.grid(column=0, row=1, columnspan=3)
 
 # Other widgets
-timer_label = Label(text="Timer", fg=GREEN, bg=YELLOW, font=(FONT_NAME, 40))
-timer_label.grid(column=1, row=0)
+timer_label = canvas.create_text(130, 30, text="Timer", fill=YELLOW, font=(FONT_NAME, 32))
 
-start_btn = Button(text="START", command=start_count_down)
+start_btn = Button(text="GO", fg="white", bg=BG_COLOR, font=(FONT_NAME, 16), command=start_count_down)
 start_btn.grid(column=0, row=2)
 
-reset_btn = Button(text="RESET", command=reset_timer)
+reset_btn = Button(text="RESET", fg="white", bg=BG_COLOR, font=(FONT_NAME, 12), pady=6, command=reset_timer)
 reset_btn.grid(column=2, row=2)
 
-# pause_btn = Button(text="PAUSE", command=pause)
-# pause_btn.grid(column=1, row=2, pady=20)
-
-checked_mark = Label(fg=GREEN, bg=YELLOW, font=(FONT_NAME, 20))
-# tiny_tomato_icon = PhotoImage(file="tiny_tomato.png")
-# checked_mark = Label(image=tiny_tomato_icon, bg=YELLOW)
-checked_mark.grid(column=1, row=3)
-
+checked_mark = Label(fg=YELLOW, bg=BG_COLOR, font=(FONT_NAME, 10), height=4)
+checked_mark.grid(column=0, row=3, columnspan=3)
 
 window.mainloop()
