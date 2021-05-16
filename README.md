@@ -2,13 +2,13 @@ This project is a minimalism design of a pomodoro app.
 
 I set the background color to change based on the work/break stage.
 
-![screenshot](link)
+![screenshot](https://github.com/linbeta/Day-28_pomodoro_project/blob/minimalism/pomo_screenshot.PNG)
 
 
 
 This short video records a simply short version to demonstrate how it works of each session count to 00:00.
 
-![demo_video](link)
+![demo_video](https://github.com/linbeta/Day-28_pomodoro_project/blob/minimalism/my_minimalism_pomodoro_demo.gif)
 
 
 
@@ -34,6 +34,4 @@ SHORT_BREAK_MIN = 5
 LONG_BREAK_MIN = 30
 
 ```
-
- 
 
