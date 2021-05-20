@@ -21,16 +21,20 @@ pomo_num = ""
 def reset_timer():
     global timer, reps, pomo_num
     window.after_cancel(timer)
+    # start_btn.config(bg=BG_COLOR)
+    # start_btn["state"] = "active"
     canvas.itemconfig(timer_text, text="00:00")
     canvas.itemconfig(timer_label, text="Timer")
     checked_mark.config(text="")
     timer = None
+    start_btn.config(bg=BG_COLOR, state="normal")
     reps = 1
     pomo_num = ""
 
 # ---------------------------- TIMER MECHANISM ------------------------------- #
 def start_count_down():
     global reps, BG_COLOR
+    start_btn["state"] = "disable"
     if reps%8 == 0:
         count_down(LONG_BREAK_MIN * 60)
         BG_COLOR = BLUE
@@ -88,7 +92,7 @@ def count_down(count):
 
 # ---------------------------- UI SETUP ------------------------------- #
 window = Tk()
-window.title("Pomodoro")
+window.title("Pomominimal")
 window.config(padx=40, pady=20, bg=BG_COLOR)
 
 # --- Theme color and Time at the center ---
