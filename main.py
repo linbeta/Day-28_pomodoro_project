@@ -1,5 +1,8 @@
 from tkinter import *
 import math
+import requests
+import os
+import datetime as dt
 # ---------------------------- CONSTANTS ------------------------------- #
 PINK = "#ffadad"
 RED = "#EA526F"
@@ -17,9 +20,12 @@ LONG_BREAK_MIN = 30
 timer = None
 reps = 1
 pomo_num = ""
+start_time = None
+today = dt.datetime.now().strftime("%Y-%m-%d")
+
 # ---------------------------- TIMER RESET ------------------------------- # 
 def reset_timer():
-    global timer, reps, pomo_num
+    global timer, reps, pomo_num, start_time
     window.after_cancel(timer)
     # start_btn.config(bg=BG_COLOR)
     # start_btn["state"] = "active"
@@ -28,12 +34,30 @@ def reset_timer():
     checked_mark.config(text="")
     timer = None
     start_btn.config(bg=BG_COLOR, state="normal")
+    now = dt.datetime.now().strftime("%H:%M:%S")
+    record = pomo_num.replace("⚫", "🍅")
+    # ------------ Export data to a spreadsheet using sheety api --------
+    ENDPOINT = os.environ['URL']
+    header = {
+        "Content-Type": "application/json"
+    }
+    add_row = {
+        'report': {
+            'date': today,
+            'start': start_time,
+            'end': now,
+            'pomodoroNumbers': record
+        }
+    }
+    response = requests.post(url=ENDPOINT, json=add_row, headers=header)
+    response.raise_for_status()
     reps = 1
     pomo_num = ""
 
 # ---------------------------- TIMER MECHANISM ------------------------------- #
 def start_count_down():
-    global reps, BG_COLOR
+    global reps, BG_COLOR, start_time
+    start_time = dt.datetime.now().strftime("%H:%M:%S")
     start_btn["state"] = "disable"
     if reps%8 == 0:
         count_down(LONG_BREAK_MIN * 60)
@@ -92,7 +116,7 @@ def count_down(count):
 
 # ---------------------------- UI SETUP ------------------------------- #
 window = Tk()
-window.title("Pomominimal")
+window.title("Pomominimal (v1.1)")
 window.config(padx=40, pady=20, bg=BG_COLOR)
 
 # --- Theme color and Time at the center ---
