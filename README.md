@@ -1,6 +1,10 @@
 This project is a minimalism design of a pomodoro app.
 I set the work time to 25 minutes, short-break for 5 minutes, and long-break for 30 minutes.
 
+### What's new in this version/branch
+Add a export result feature. After click the reset button, the results will be added to a row in a Google sheet, so that it will be easier to track the daily word results.
+
+
 ### Screenshots
 I set the background color to change based on the work/break stage.
 <p float="left">
@@ -34,12 +38,3 @@ SHORT_BREAK_MIN = 5
 LONG_BREAK_MIN = 30
 
 ```
-
-### Download the .exe for a try!
-Click
-[Download](https://github.com/linbeta/Day-28_pomodoro_project/raw/minimalism/output/Pomominimal.exe)
-or go to the [output folder](https://github.com/linbeta/Day-28_pomodoro_project/tree/minimalism/output) in this repository to download the .exe file
-
-I use this [auto-py-to-exe](https://pypi.org/project/auto-py-to-exe/) pachage to make the downloadable .exe file.
-
-Try it out and welcome any feedback. :)
