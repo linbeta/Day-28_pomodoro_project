@@ -1,25 +1,25 @@
 from tkinter import *
 import math
 # ---------------------------- CONSTANTS ------------------------------- #
-PINK = "#ffadad"
-RED = "#EA526F"
-GREEN = "#25CED1"
-YELLOW = "#FCEADE"
-BLUE = "#85E9EA"
-BG_COLOR = RED
+SPEECH = "#b9fbc0"
+FIRST_COLOR = "#25CED1"
+SECOND_COLOR = "#ff8a5b"
+YELLOW = "#ffd670"
+INTER_COLOR = "#a4b8c4"
+BG_COLOR = FIRST_COLOR
 # -- Font of choice: "Dubai", "Bahnschrift", "Ink Free", "Lucida Sans", "Lucida Sans Typewriter", "Maiandra GD",
 # "Source Code Pro", "Taipei Sans TC Beta", "Tempus Sans ITC"
-FONT_NAME = "Bahnschrift"
-WORK_MIN = 25
-SHORT_BREAK_MIN = 5
-LONG_BREAK_MIN = 30
+FONT_NAME = "Dubai"
+FIRST_COUNT = 3
+SECOND_COUNT = 2
+BREAK = 1
 
 timer = None
 reps = 1
-pomo_num = ""
+# pomo_num = ""
 # ---------------------------- TIMER RESET ------------------------------- # 
 def reset_timer():
-    global timer, reps, pomo_num
+    global timer, reps
     window.after_cancel(timer)
     # start_btn.config(bg=BG_COLOR)
     # start_btn["state"] = "active"
@@ -35,30 +35,30 @@ def reset_timer():
 def start_count_down():
     global reps, BG_COLOR
     start_btn["state"] = "disable"
-    if reps%8 == 0:
-        count_down(LONG_BREAK_MIN * 60)
-        BG_COLOR = BLUE
+    if reps % 3 == 0:
+        count_down(BREAK * 60)
+        BG_COLOR = INTER_COLOR
         canvas.config(bg=BG_COLOR)
         window.config(bg=BG_COLOR)
-        canvas.itemconfig(timer_label, text="BREAK", fill=GREEN)
+        canvas.itemconfig(timer_label, text="BREAK", fill=SECOND_COLOR)
         start_btn.config(bg=BG_COLOR)
         reset_btn.config(bg=BG_COLOR)
         checked_mark.config(bg=BG_COLOR)
-    elif reps%2 == 0:
-        count_down(SHORT_BREAK_MIN * 60)
-        BG_COLOR = GREEN
+    elif reps % 3 == 2:
+        count_down(SECOND_COUNT * 60)
+        BG_COLOR = SECOND_COLOR
         canvas.config(bg=BG_COLOR)
         window.config(bg=BG_COLOR)
-        canvas.itemconfig(timer_label, text="Break", fill="white")
+        canvas.itemconfig(timer_label, text="Hurry Up", fill=YELLOW)
         start_btn.config(bg=BG_COLOR)
         reset_btn.config(bg=BG_COLOR)
         checked_mark.config(bg=BG_COLOR)
-    elif reps%2 == 1:
-        count_down(WORK_MIN * 60)
-        BG_COLOR = RED
+    elif reps % 3 == 1:
+        count_down(FIRST_COUNT * 60)
+        BG_COLOR = FIRST_COLOR
         canvas.config(bg=BG_COLOR)
         window.config(bg=BG_COLOR)
-        canvas.itemconfig(timer_label, text="Work", fill=PINK)
+        canvas.itemconfig(timer_label, text="Speech", fill=SPEECH)
         start_btn.config(bg=BG_COLOR)
         reset_btn.config(bg=BG_COLOR)
         checked_mark.config(bg=BG_COLOR)
@@ -67,9 +67,8 @@ def start_count_down():
 
 # ---------------------------- COUNTDOWN MECHANISM ------------------------------- # 
 def count_down(count):
-    global pomo_num
     count_min = math.floor(count/60)
-    count_sec = count%60
+    count_sec = count % 60
     if count_sec < 10:
         count_sec = f"0{count_sec}"
     canvas.itemconfig(timer_text, text=f"{count_min}:{count_sec}")
@@ -81,32 +80,34 @@ def count_down(count):
         window.bell()
         window.attributes("-topmost", 1)
         window.attributes("-topmost", 0)
-        if reps % 2 == 0:
-            pomo_num += "⚫"
-        if reps % 8 == 1:
-            pomo_num += "-"
+        # if reps % 2 == 0:
+        #     pomo_num += "⚫"
+        # if reps % 8 == 1:
+        #     pomo_num += "-"
 
-        checked_mark.config(text=pomo_num)
+        # checked_mark.config(text=pomo_num)
         start_count_down()
 
 
 # ---------------------------- UI SETUP ------------------------------- #
 window = Tk()
-window.title("Pomominimal")
-window.config(padx=40, pady=20, bg=BG_COLOR)
+window.title("Speech Timer")
+window.config(padx=20, pady=20, bg=BG_COLOR)
+window.geometry("240x180")
+
 
 # --- Theme color and Time at the center ---
-canvas = Canvas(width=260, height=200, bg=BG_COLOR, highlightthickness=0)
-timer_text = canvas.create_text(130, 120, text="00:00", fill="white", font=(FONT_NAME, 80, "normal"))
+canvas = Canvas(width=200, height=110, bg=BG_COLOR, highlightthickness=0)
+timer_text = canvas.create_text(100, 70, text="00:00", fill="white", font=(FONT_NAME, 60, "normal"))
 canvas.grid(column=0, row=1, columnspan=3)
 
 # Other widgets
-timer_label = canvas.create_text(130, 30, text="Timer", fill=YELLOW, font=(FONT_NAME, 32))
+timer_label = canvas.create_text(100, 10, text="Timer", fill="white", font=(FONT_NAME, 22))
 
-start_btn = Button(text="GO", fg="white", bg=BG_COLOR, font=(FONT_NAME, 16), command=start_count_down)
+start_btn = Button(text="GO", fg="white", bg=BG_COLOR, font=(FONT_NAME, 10), pady=-20, padx=10, command=start_count_down)
 start_btn.grid(column=0, row=2)
 
-reset_btn = Button(text="RESET", fg="white", bg=BG_COLOR, font=(FONT_NAME, 12), pady=6, command=reset_timer)
+reset_btn = Button(text="RESET", fg="white", bg=BG_COLOR, font=(FONT_NAME, 10), pady=-20, command=reset_timer)
 reset_btn.grid(column=2, row=2)
 
 checked_mark = Label(fg=YELLOW, bg=BG_COLOR, font=(FONT_NAME, 10), height=4)
